@@ -1,0 +1,21 @@
+version: "3.0"
+   
+services:
+  backend-server:
+    build: 
+      context: ./
+    env_file:
+      - ./lab_backend/.env.dev
+    container_name: backend-server
+    command: uvicorn main:app --reload --host 0.0.0.0 --port 8000
+    volumes:
+      - ./lab_backend:/lab_backend
+    ports:
+      - "8000:8000"
+    restart: always
+    networks:
+      backend_net:
+
+networks: 
+  backend_net:
+    driver: bridge
