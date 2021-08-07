@@ -72,7 +72,7 @@ async def get_lab(lab_id:int):
 @app.get("/lab/download/{lab_id:int}")
 async def download_macro(lab_id:int): 
     if lab_id == 2:
-        return "http://203.162.10.108:8011/media/"+MARCRO_FILE_PATH
+        return "https://google-mail-api.herokuapp.com/"+MARCRO_FILE_PATH
 
 # phat hien hanh dong cua khi mo file macro/bat
 @app.post("/lab_type/{tp:str}")
