@@ -1,4 +1,4 @@
-from Google import Create_Service
+from features.Google import Create_Service
 
 CLIENT_FILE = 'credentials/client_secret.json'
 API_NAME = 'gmail'
