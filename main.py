@@ -1,48 +1,25 @@
+from email import message
+from http import server
+from Google import Create_Service
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import base64
 
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from features import quickstart
-import Model
+CLIENT_SECRET_FILE = 'credentials/client_secret.json'
+API_NAME = 'gmail'
+API_VERSION = 'v1'
+SCOPES = ['https://mail.google.com/']
 
-# from features import quickstart
-
-# doi tuong ghi nhan trang thai cua hai lab 
-detect = Model.DetectSTT()
-
-# init 
-app = FastAPI()
-
-# set up static file 
-app.mount("/media", StaticFiles(directory="media"), name="media")
-
-origins = [
-    "http://localhost",
-    "http://localhost:8000",
-    "http://localhost:8011",
-    "https://localhost",
-    "https://localhost:8000",
-    "https://localhost:8011",
-    "https://labao.aisenote.com",
-    "https://labaohoa.vercel.app"
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
 
-# home 
-@app.get("/")
-async def home():
-    return "This is home!"
+emailmasg = "hello my friend"
+mineMessage = MIMEMultipart()
+mineMessage['to'] = 'tuananh1421999@gmail.com'
+mineMessage['subject'] = 'Hello'
+mineMessage.attach(MIMEText(emailmasg, 'plain'))
+raw_string = base64.urlsafe_b64encode(mineMessage.as_bytes()).decode()
 
-@app.get("/mail")
-async def mail_authen():
-    action = quickstart.main()
-    return action                                                                                                                                        
+message = service.users().messages().send(userId='me', body={'raw': raw_string}).execute()
+print(message)
+
