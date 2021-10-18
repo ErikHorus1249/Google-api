@@ -1,5 +1,6 @@
 from email import message
 from http import server
+from os import stat
 from Google import Create_Service
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -12,14 +13,23 @@ SCOPES = ['https://mail.google.com/']
 
 service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
 
-
+# Thông điệp muốn gửi  - email body
 emailmasg = "hello my friend"
 mineMessage = MIMEMultipart()
+# địa chỉ mail người nhận 
 mineMessage['to'] = 'tuananh1421999@gmail.com'
-mineMessage['subject'] = 'Hello'
+# subject của email 
+mineMessage['subject'] = 'Test hệ thống'
 mineMessage.attach(MIMEText(emailmasg, 'plain'))
 raw_string = base64.urlsafe_b64encode(mineMessage.as_bytes()).decode()
 
 message = service.users().messages().send(userId='me', body={'raw': raw_string}).execute()
-print(message)
+# print(message)
 
+# lấy thông tin đã gửi hay chưa 
+# status = message["labelIds"][1]
+# if status == "SENT":
+#     return True
+# else:
+#     return False
+print(status)
