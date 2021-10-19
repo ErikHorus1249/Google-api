@@ -24,12 +24,3 @@ mineMessage.attach(MIMEText(emailmasg, 'plain'))
 raw_string = base64.urlsafe_b64encode(mineMessage.as_bytes()).decode()
 
 message = service.users().messages().send(userId='me', body={'raw': raw_string}).execute()
-# print(message)
-
-# lấy thông tin đã gửi hay chưa 
-# status = message["labelIds"][1]
-# if status == "SENT":
-#     return True
-# else:
-#     return False
-print(status)
